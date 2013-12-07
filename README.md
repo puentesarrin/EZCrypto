@@ -5,14 +5,25 @@ Easy to use wrapper around cryptographic libraries for Python.
 
 ## Usage examples ##
 
-### Generating a new key ###
+### Importing the RSA PrivateKey class
 
     from ezcrypto.pki.rsa import PrivateKey
+
+### Generating a new key ###
+
     private_key = PrivateKey.generate()
+
+### Loading a private key from a PEM file
+
+    private_key = PrivateKey.load_from_pem_file('/path/to/priv.pem')   
 
 ### Obtaining the public key ###
 
     public_key = private_key.get_public_key()
+
+### Loading a public key from a PEM file
+
+    public_key = PublicKey.load_from_pem_file('/path/to/pub.pem')
 
 ### Exporting a public/private key as a PEM string ###
 
