@@ -12,13 +12,35 @@ from ezcrypto.helpers import CipherText
 class RSAKey(object):
 
     def __init__(self, pem):
-        self.load_from_pem(pem)
+        self._key = RSA.importKey(pem)
 
-    def load_from_pem(self, pem):
+    @classmethod
+    def __load_key_from_file(cls, path_to_key):
+        fp = open(path_to_key, 'r')
+        data = ''.join(fp.readlines())
+        fp.close()
+        return data
+
+    @classmethod
+    def __save_key_to_file(cls, path_to_key, data):
+        fp = open(path_to_key, 'w+')
+        fp.write(data)
+        fp.close()
+
+    def load_from_pem(cls, pem):
         self._key = RSA.importKey(pem)
 
     def export_as_pem(self):
         return self._key.exportKey('PEM')
+
+    @classmethod
+    def load_from_pem_file(cls, path_to_key):
+        data = cls.__load_key_from_file(path_to_key)
+        return cls(data)
+
+    def save_to_pem_file(self, path_to_key):
+        data = self.export_as_pem()
+        self.__save_key_to_file(path_to_key, data)
 
     def export_as_der(self):
         return self._key.exportKey('DER')
